@@ -26,6 +26,8 @@ public class User {
     private String contact;
     @Column(name="cnpj")
     private String cnpj;
+    @Column(name="senhausuário")
+    private String passeworld;
 
 
 }

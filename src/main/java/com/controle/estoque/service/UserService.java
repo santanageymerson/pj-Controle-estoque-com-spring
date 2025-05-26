@@ -31,6 +31,34 @@ public class UserService {
     
     }
 
+    public void updateUserById(Long id, User user){
+        Optional<User> userExists =userRepository.findById(id);
+        User userEntity = userExists.get();
+        if(userExists.isPresent()){
+            
+
+            if(user.getName() != null){
+                userEntity.setName(user.getName());
+            }
+            if(user.getPasseworld() != null){
+                userEntity.setPasseworld(user.getPasseworld());
+            }
+            if(user.getContact() != null){
+                userEntity.setContact(user.getContact());
+            }
+            if(user.getCnpj() != null){
+                userEntity.setCnpj(user.getCnpj());
+            }
+            if(user.getEmail()!=null){
+                userEntity.setEmail(user.getEmail());
+            }
+
+            userRepository.save(userEntity);
+            
+        }
+        
+    }
+
     public void deleteById(Long id){
         var userExiste = userRepository.existsById(id);
         if(userExiste){
