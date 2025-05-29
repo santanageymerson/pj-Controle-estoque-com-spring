@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.controle.estoque.model.User;
 import com.controle.estoque.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,25 +27,28 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
-@RequestMapping("/")
+@RequestMapping(value ="/user")
 public class UserController {
 
     @Autowired
     private UserService service;
 
-    @GetMapping(value = "listar") 
+    @Operation(description = "listas todos usuário")
+    @GetMapping(value = "/listar") 
     public List<User> listUser(){
         return service.listar();
     }
 
-    @PostMapping(value = "cadastra")
+    @Operation(description = "cadastra usuário")
+    @PostMapping(value = "/cadastrar")
     public ResponseEntity<User> createUser(@RequestBody User user){
         
         User resposta = service.createUser(user);
         return new ResponseEntity<>(resposta,HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "cadastra/{id}")
+    @Operation(description = "busca usuário por id")
+    @GetMapping(value = "/buscar/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
         var user = service.getUserById(id);
         if (user.isPresent()){
@@ -53,14 +58,17 @@ public class UserController {
             return ResponseEntity.notFound().build();
         } 
     }
-    @PutMapping("atualizar/{id}")
+
+    @Operation(description = "atualiza usuário por id")
+    @PutMapping(value="/atualizar/{id}")
     public ResponseEntity<Void> updateUserById(@PathVariable("id") Long id, @RequestBody User user){
         service.updateUserById(id, user);
         return ResponseEntity.noContent().build();
         //return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("deletar/{id}")
+    @Operation(description = "delata usuário por id")
+    @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable("id") Long id){
         service.deleteById(id);
         return ResponseEntity.noContent().build();
